@@ -1,0 +1,12 @@
+import express from "express";
+import * as accountsCtrl from "../controllers/accountsController.js";
+import * as txCtrl from "../controllers/transactionsController.js";
+import { validateAccountCreation, validateTransaction, validateTransfer, validateListAccounts, validateListTransactions } from "../middleware/validators.js";
+const router = express.Router();
+router.get("/reports/summary", accountsCtrl.reportSummary);
+router.get("/", validateListAccounts, accountsCtrl.listAccounts);
+router.post("/", validateAccountCreation, accountsCtrl.createAccount);
+router.post("/transfer", validateTransfer, txCtrl.transferFunds);
+router.post("/:id/transactions", validateTransaction, txCtrl.applyTransaction);
+router.get("/:id/transactions", validateListTransactions, accountsCtrl.getAccountTransactions);
+export default router;
